@@ -1,2 +1,4 @@
 .idea/
 *.iml
+src/js/
+examples/src/js/
