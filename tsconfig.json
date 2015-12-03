@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "target": "ES5",
+    "declaration": true,
+    "sourceMap": true,
+    "out": "build/all.js"
+  },
+  "files": [
+    "typings/tsd.d.ts",
+    "src/Common.ts",
+    "src/Entity.ts",
+    "src/EventStore.ts",
+    "src/Aggregate.ts"
+  ]
+}

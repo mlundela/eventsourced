@@ -10,7 +10,7 @@ module Eventsourced {
      */
     export class Aggregate<T extends Entity> {
 
-        state:Entity;
+        state:T;
         eventStore:EventStore;
 
         constructor(eventStore:EventStore) {
@@ -18,15 +18,15 @@ module Eventsourced {
         }
 
         onReceive(command:Command):void {
-
-            var events = this.state.validateCommand(command).right;
-            if (events) {
-                this.eventStore
-                    .persist(events)
-                    .then(function (persistedEvents) {
-                        persistedEvents.forEach(event => this.state.update(event));
-                    });
-            }
+            var events = this.state.validateCommand(command);
+            this.eventStore
+                .persist(events)
+                .then(function (persistedEvents) {
+                    this.state = persistedEvents.reduce(
+                        (state, event) => state.update(event),
+                        this.state
+                    );
+                });
         }
     }
 }

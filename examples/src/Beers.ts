@@ -1,4 +1,3 @@
-
 /// <reference path="../../src/Common.ts" />
 /// <reference path="../../src/Entity.ts" />
 module Eventsourced {
@@ -22,12 +21,12 @@ module Eventsourced {
 
     export class TestEntity implements Entity {
 
-        validateCommand(command:Command):Either<Array<Event>, ValidationError> {
+        validateCommand(command:Command):Array<Event> {
             switch (command.key) {
                 case 'OrderBeer':
-                    return new BeerOrdered(command.payload);
+                    return [new BeerOrdered(command.payload)];
                 default:
-                    return new ValidationError('Invalid command');
+                    throw 'Invalid command';
             }
         }
 

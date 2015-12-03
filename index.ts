@@ -1,1 +1,1 @@
-/// <reference path="src/Aggregate.ts" />
+/// <reference path="build/all.d.ts" />

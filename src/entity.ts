@@ -1,4 +1,5 @@
 /// <reference path="Common.ts" />
+
 module Eventsourced {
 
     export interface Entity {
@@ -7,13 +8,13 @@ module Eventsourced {
          * Validate command, and return events.
          * @param command
          */
-        validateCommand(command:Command): Either<Array<Event>, ValidationError>;
+        validateCommand(command:Command): Array<Event>;
 
         /**
-         * Update state.
+         * Apply events and return a new state object of type T.
          * @param event
          */
-        update(event:Event): void;
+        update<T>(event:Event): T;
 
     }
 }
