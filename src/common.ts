@@ -1,5 +1,6 @@
 module Eventsourced {
 
+
     export class Command {
 
         key:string;

@@ -10,10 +10,13 @@ module Eventsourced {
      */
     export class Aggregate<T extends Entity> {
 
+        aggregateId:any;
         state:T;
         eventStore:EventStore;
 
-        constructor(eventStore:EventStore) {
+        constructor(type:{ new(): T ;}, id:any, eventStore:EventStore) {
+            this.aggregateId = id;
+            this.state = new type();
             this.eventStore = eventStore;
         }
 
