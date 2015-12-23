@@ -5,31 +5,36 @@
 
 module Eventsourced {
 
+
     /**
      * Aggregate class
      */
     export class Aggregate<T extends Entity> {
 
-        aggregateId:any;
         state:T;
         eventStore:EventStore;
+        type:{ new(): T ;};
 
-        constructor(type:{ new(): T ;}, id:any, eventStore:EventStore) {
-            this.aggregateId = id;
-            this.state = new type();
+        constructor(eventStore:EventStore) {
+            this.state = new this.type();
             this.eventStore = eventStore;
         }
 
-        onReceive(command:Command):void {
-            var events = this.state.validateCommand(command);
-            this.eventStore
-                .persist(events)
+        onCommand(command:Command):Promise<T> {
+            return this.eventStore
+                .persist(this.state.validateCommand(command))
                 .then(function (persistedEvents) {
                     this.state = persistedEvents.reduce(
                         (state, event) => state.update(event),
                         this.state
                     );
+                    return this.state;
                 });
+        }
+
+        onEvent(event:Event):T {
+            this.state = this.state.update<T>(event);
+            return this.state;
         }
     }
 }

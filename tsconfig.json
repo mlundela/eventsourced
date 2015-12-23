@@ -7,11 +7,7 @@
     "sourceMap": true,
     "out": "build/all.js"
   },
-  "files": [
-    "typings/tsd.d.ts",
-    "src/Common.ts",
-    "src/Entity.ts",
-    "src/EventStore.ts",
-    "src/Aggregate.ts"
+  "exclude": [
+    "node_modules"
   ]
 }

@@ -8,6 +8,8 @@ module Eventsourced {
 
         persist(events:Array<Event>): Promise<Array<PersistedEvent>>;
 
+        getEventsById<I>(id:Id<I>): Promise<Array<PersistedEvent>>;
+
         eventStream(): Rx.Observable<Event>;
     }
 }
