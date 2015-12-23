@@ -3,7 +3,7 @@
   "version": "0.0.2",
   "private": false,
   "scripts": {
-    "pretest": "tsc test/*Test.ts --module commonjs",
+    "pretest": "tsc test/*.ts --module commonjs",
     "prepublish": "tsc index.ts --module commonjs",
     "test": "mocha"
   },
@@ -11,6 +11,7 @@
     "rx": "^4.0.7"
   },
   "devDependencies": {
+    "chai": "^3.4.1",
     "mocha": "^2.3.4"
   }
 }
