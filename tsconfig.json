@@ -1,13 +1,17 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "target": "ES5",
     "declaration": true,
     "sourceMap": true,
     "out": "build/all.js"
   },
   "exclude": [
+    "build",
+    ".idea",
+    "test",
+    "typings",
     "node_modules",
     "examples"
   ]

@@ -1,20 +1,17 @@
-/// <reference path="Common.ts" />
+import {PersistedEvent, Command} from './Common';
 
-module Eventsourced {
+export interface Entity {
 
-    export interface Entity {
+    /**
+     * Validate command, and return events.
+     * @param command
+     */
+    validateCommand(command:Command): Array<PersistedEvent>;
 
-        /**
-         * Validate command, and return events.
-         * @param command
-         */
-        validateCommand(command:Command): Array<Event>;
+    /**
+     * Apply events and return a new state object of type T.
+     * @param event
+     */
+    update<T>(event:PersistedEvent): T;
 
-        /**
-         * Apply events and return a new state object of type T.
-         * @param event
-         */
-        update<T>(event:Event): T;
-
-    }
 }

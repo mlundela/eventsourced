@@ -1,27 +1,25 @@
-/// <reference path="Common.ts" />
-/// <reference path="Entity.ts" />
-/// <reference path="AggregateFactory.ts" />
-/// <reference path="../typings/tsd.d.ts" />
+import {Entity} from './Entity';
+import {Command, PersistedEvent, Id, UUID} from './Common';
+import {EventStore} from './EventStore';
+import {Aggregate} from './Aggregate';
+import {AggregateFactory} from './AggregateFactory';
 
-module Eventsourced {
 
+export interface AggregateRepository<U, V extends Entity> {
+    get(id:Id<U>): Promise<Aggregate<V>>;
+    set(id:Id<U>, aggregate:Aggregate<V>): Aggregate<V>;
+}
 
-    export interface AggregateRepository<U, V extends Entity> {
-        get(id:Id<U>): Promise<Aggregate<V>>;
-        set(id:Id<U>, aggregate:Aggregate<V>): Aggregate<V>;
+export class SimpleAggregateRepository<V extends Entity> implements AggregateRepository<UUID, V> {
+
+    constructor(public factory:AggregateFactory<UUID, V>) {
     }
 
-    export class SimpleAggregateRepository<V extends Entity> implements AggregateRepository<UUID, V> {
+    get(id:Id<UUID>):Promise<Aggregate<V>> {
+        return this.factory.createAggregate(id);
+    }
 
-        constructor(public factory:AggregateFactory<UUID, V>) {
-        }
-
-        get(id:Id<UUID>):Promise<Aggregate<V>> {
-            return this.factory.createAggregate(id);
-        }
-
-        set(id:Id<UUID>, aggregate:Aggregate<V>):Aggregate<V> {
-            return aggregate;
-        }
+    set(id:Id<UUID>, aggregate:Aggregate<V>):Aggregate<V> {
+        return aggregate;
     }
 }

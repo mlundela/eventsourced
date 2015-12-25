@@ -1,41 +1,21 @@
-/// <reference path="Entity.ts" />
-/// <reference path="EventStore.ts" />
-/// <reference path="Aggregate.ts" />
-/// <reference path="../typings/tsd.d.ts" />
+import {Entity} from './Entity';
+import {Id} from './Common';
+import {Aggregate} from './Aggregate';
+import {EventStore} from './EventStore';
 
-module Eventsourced {
+export class AggregateFactory<I, T extends Entity> {
 
-    export class AggregateFactory<I, T extends Entity> {
-
-        constructor(public eventStore:EventStore) {
-        }
-
-        createAggregate(id:Id<I>):Promise<Aggregate<T>> {
-
-            return this.eventStore
-                .getEventsById(id)
-                .then(events => {
-                    var aggregate = new Aggregate(this.eventStore);
-                    events.forEach(aggregate.onEvent);
-                    return aggregate;
-                });
-        }
+    constructor(public eventStore:EventStore) {
     }
 
-    class Tmp implements Entity {
+    createAggregate<T extends Entity>(id:Id<I>):Promise<Aggregate<T>> {
 
-        constructor(public name:string){}
-
-        validateCommand(command:Command):Array<Event> {
-            return [];
-        }
-
-        update(event:Eventsourced.Event):Tmp {
-            return new Tmp("a");
-        }
-
+        return this.eventStore
+            .getEventsById(id)
+            .then(events => {
+                var aggregate = new Aggregate<T>(T, this.eventStore);
+                events.forEach(aggregate.onEvent);
+                return aggregate;
+            });
     }
-
-    var tmp:Aggregate<Tmp> = new Aggregate<Tmp>(null);
-    var state:Tmp = tmp.state;
 }

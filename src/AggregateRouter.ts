@@ -1,25 +1,20 @@
-/// <reference path="Common.ts" />
-/// <reference path="Entity.ts" />
-/// <reference path="AggregateRepository.ts" />
-/// <reference path="../typings/tsd.d.ts" />
+import {Entity} from './Entity';
+import {Command, PersistedEvent, Id} from './Common';
+import {AggregateRepository} from './AggregateRepository';
 
-module Eventsourced {
+export class AggregateRouter<U, T extends Entity> {
 
+    aggregateRepository:AggregateRepository<U,T>;
 
-    export class AggregateRouter<U, T extends Entity> {
-
-        aggregateRepository:AggregateRepository<U,T>;
-
-        constructor(aggregateRepository:AggregateRepository<U, T>) {
-            this.aggregateRepository = aggregateRepository;
-        }
-
-        apply(command:Command, id:Id<U>):Promise<T> {
-
-            return this.aggregateRepository
-                .get(id)
-                .then(aggregate => aggregate.onCommand(command));
-        }
-
+    constructor(aggregateRepository:AggregateRepository<U, T>) {
+        this.aggregateRepository = aggregateRepository;
     }
+
+    apply(command:Command, id:Id<U>):Promise<T> {
+
+        return this.aggregateRepository
+            .get(id)
+            .then(aggregate => aggregate.onCommand(command));
+    }
+
 }

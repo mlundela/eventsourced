@@ -4,5 +4,7 @@ node_modules/
 examples/src/js/
 build/
 
-# Ignore compiled test files
+# Ignore compiled files
 test/*.js*
+src/*.js*
+src/*.d.ts

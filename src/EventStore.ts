@@ -1,16 +1,11 @@
-/// <reference path="Common.ts" />
-/// <reference path="../typings/tsd.d.ts" />
-/// <reference path="../node_modules/rx/ts/rx.core.d.ts" />
+import {PersistedEvent, Id} from './Common';
 
-module Eventsourced {
+export interface EventStore {
 
-    export interface EventStore {
+    persist(events:Array<PersistedEvent>): Promise<Array<PersistedEvent>>;
 
-        persist(events:Array<Event>): Promise<Array<PersistedEvent>>;
+    getEventsById<I>(id:Id<I>): Promise<Array<PersistedEvent>>;
 
-        getEventsById<I>(id:Id<I>): Promise<Array<PersistedEvent>>;
-
-        eventStream(): Rx.Observable<Event>;
-    }
+    eventStream(): Rx.Observable<PersistedEvent>;
 }
 
