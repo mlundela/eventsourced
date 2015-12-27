@@ -3,7 +3,7 @@
     "module": "commonjs",
     "noImplicitAny": false,
     "target": "ES5",
-    "declaration": true,
+    "declaration": false,
     "sourceMap": true,
     "out": "build/all.js"
   },
