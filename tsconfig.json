@@ -1,11 +1,10 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "target": "ES5",
-    "declaration": false,
-    "sourceMap": true,
-    "out": "build/all.js"
+    "declaration": true,
+    "sourceMap": true
   },
   "exclude": [
     "build",

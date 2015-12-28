@@ -18,19 +18,21 @@ export class Aggregate<T extends Entity> {
     }
 
     onCommand(command:Command):Promise<T> {
-        return this.eventStore
-            .persist(this.state.validateCommand(command))
+        var self = this;
+        return self.eventStore
+            .persist(self.state.validateCommand(command))
             .then(function (persistedEvents) {
-                this.state = persistedEvents.reduce(
-                    (state, event) => state.update(event),
-                    this.state
-                );
-                return this.state;
+                self.state = persistedEvents.reduce<T>((state, event) => {
+                    state.update(event);
+                    return state;
+                }, self.state);
+                return self.state;
             });
     }
 
     onEvent(event:PersistedEvent):T {
-        this.state = this.state.update<T>(event);
-        return this.state;
+        var self = this;
+        self.state.update(event);
+        return self.state;
     }
 }

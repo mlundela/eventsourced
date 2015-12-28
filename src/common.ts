@@ -22,13 +22,8 @@ export class UUID implements Id<string> {
     }
 }
 
-export class Message {
-    constructor(private key:string, private payload:any) {
-    }
+export interface Command{
 }
 
-export class Command extends Message {
-}
-
-export class PersistedEvent extends Message {
+export interface PersistedEvent {
 }

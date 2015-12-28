@@ -7,4 +7,3 @@ build/
 # Ignore compiled files
 test/*.js*
 src/*.js*
-src/*.d.ts

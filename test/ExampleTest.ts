@@ -71,8 +71,8 @@ class BeerOrdered implements PersistedEvent {
 
 describe('ExampleAggregate', () => {
 
-    var eventStore;
-    var aggregate;
+    var eventStore:EventStore;
+    var aggregate:Aggregate<Bar>;
 
     beforeEach('init', () => {
         eventStore = new InMemoryEventStore();
@@ -109,7 +109,7 @@ describe('ExampleAggregate', () => {
                 });
         });
 
-        it('emits event on event stream', (done) => {
+        it('emits event to event stream', (done) => {
 
             eventStore
                 .eventStream()
@@ -120,6 +120,13 @@ describe('ExampleAggregate', () => {
                 });
 
             aggregate.onCommand(new OrderBeer(0.5));
+        });
+    });
+
+    describe('#onEvent', () => {
+        it('return new state', () => {
+            var bar = aggregate.onEvent(new BeerOrdered(0.5));
+            expect(bar.orders.length).to.be.equal(1);
         });
     });
 });
